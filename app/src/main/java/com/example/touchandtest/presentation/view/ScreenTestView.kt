@@ -1,7 +1,6 @@
 package com.example.touchandtest.presentation.view
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -15,10 +14,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -76,7 +73,7 @@ fun ScreenTestView(
             RowFactory(screenWidth, screenHeight, viewModel)
         }
     }
-    if (timeOutMessage != null){
+    if (timeOutMessage != null) {
         TimeOutMessage(viewModel, navController, context, timeOutMessage)
     }
 }
@@ -124,7 +121,6 @@ fun SquareFactory(
             enabled = enabledSquare,
             onClick = {
                 viewModel.onSquareClicked(index)
-                Log.d("DEBUG", "square clicked at index $index")
             }
         ) {}
         squarePopulation += screenWidthPart
@@ -138,7 +134,6 @@ fun TimeOutMessage(
     context: Context,
     timeOutMessage: String?
 ) {
-    Log.d("DEBUG", "$timeOutMessage")
     LaunchedEffect(timeOutMessage) {
         timeOutMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
@@ -148,7 +143,6 @@ fun TimeOutMessage(
 }
 
 fun handleNavigation(viewModel: ScreenTestViewModel, navController: NavController) {
-    Log.d("DEBUG", "chegou na navegação")
     if (viewModel.isFinish.value == true) {
         navController.navigate(Routes.HOME_SCREEN)
     }

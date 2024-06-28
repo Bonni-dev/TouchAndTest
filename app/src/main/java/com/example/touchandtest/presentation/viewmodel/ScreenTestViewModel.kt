@@ -1,15 +1,10 @@
 package com.example.touchandtest.presentation.viewmodel
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavController
-import com.example.touchandtest.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,15 +29,13 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun startCountDown() {
-        timer = object : CountDownTimer(15000, 1000) {
+        timer = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                Log.d("DEBUG", "${millisUntilFinished/1000} restantes")
             }
 
             override fun onFinish() {
                 _isFinish.value = true
                 handleTestResult()
-                Log.d("DEBUG", "finish countDown")
             }
         }.start()
     }
