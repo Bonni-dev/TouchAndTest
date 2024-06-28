@@ -8,19 +8,18 @@ import androidx.navigation.NavController
 import com.example.touchandtest.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
 class ScreenTestViewModel @Inject constructor() : ViewModel() {
-    private var _timeOutMessage: MutableStateFlow<String?> = MutableStateFlow(null)
+    private var _timeOutMessage: MutableLiveData<String?> = MutableLiveData(null)
     private var _enabledButton: MutableLiveData<Boolean> = MutableLiveData(false)
     private var squareCount = 0
-    private val totalSquares = 36
 
-    val timeOutMessage: StateFlow<String?> = _timeOutMessage
+    val totalSquares = 36
+    val timeOutMessage: LiveData<String?> = _timeOutMessage
     val enabledButton: LiveData<Boolean> = _enabledButton
 
     init {
@@ -38,7 +37,7 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun handleTestResult() {
+    fun handleTestResult() {
         if (areSquaresClicked()) {
             _enabledButton.value = areSquaresClicked()
         } else {
@@ -46,7 +45,7 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun areSquaresClicked(): Boolean {
+    fun areSquaresClicked(): Boolean {
         return squareCount == totalSquares
     }
 
