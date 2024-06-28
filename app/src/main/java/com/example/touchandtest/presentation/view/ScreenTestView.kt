@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.touchandtest.navigation.Routes
 import com.example.touchandtest.presentation.theme.initialSquareColor
 import com.example.touchandtest.presentation.theme.pressedSquareColor
@@ -128,5 +129,6 @@ fun handleNavigation(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun ScreenTestViewPreview() {
-//    ScreenTestView()
+    val navController = rememberNavController()
+    ScreenTestView(navController)
 }
