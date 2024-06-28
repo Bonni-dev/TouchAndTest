@@ -46,7 +46,7 @@ fun ScreenTestView(
     ) {
         RowFactory(screenWidth, screenHeight, viewModel)
         SuccessButton(viewModel)
-        timeOutMessage(viewModel, navController, context, toastMessage)
+        TimeOutMessage(viewModel, navController, context, toastMessage)
     }
 }
 
@@ -101,7 +101,7 @@ fun SuccessButton(
 }
 
 @Composable
-fun timeOutMessage(
+fun TimeOutMessage(
     viewModel: ScreenTestViewModel,
     navController: NavController,
     context: Context,
