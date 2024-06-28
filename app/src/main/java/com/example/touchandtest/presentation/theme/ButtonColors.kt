@@ -3,7 +3,7 @@ package com.example.touchandtest.presentation.theme
 import androidx.compose.material3.ButtonColors
 import androidx.compose.ui.graphics.Color
 
-fun initialButtonColor() =
+fun standardButtonColor() =
     ButtonColors(
         containerColor = Color.Blue,
         contentColor = Color.Yellow,

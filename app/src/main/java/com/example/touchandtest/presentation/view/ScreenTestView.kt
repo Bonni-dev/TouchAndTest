@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,8 +15,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -30,7 +33,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.touchandtest.R
+import com.example.touchandtest.navigation.Routes
 import com.example.touchandtest.presentation.theme.initialSquareColor
+import com.example.touchandtest.presentation.theme.standardButtonColor
 import com.example.touchandtest.presentation.viewmodel.ScreenTestViewModel
 
 @Composable
@@ -41,14 +46,38 @@ fun ScreenTestView(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val context = LocalContext.current
-    val toastMessage = viewModel.timeOutMessage.value
+    val timeOutMessage by viewModel.timeOutMessage.observeAsState(null)
+    val enabledButton by viewModel.enabledButton.observeAsState(false)
 
-    Column(
-        modifier = Modifier.size(screenHeight)
-    ) {
-        RowFactory(screenWidth, screenHeight, viewModel)
-        SuccessButton(viewModel)
-        TimeOutMessage(viewModel, navController, context, toastMessage)
+
+    if (enabledButton) {
+        Column(
+            modifier = Modifier
+                .size(screenHeight),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Button(modifier = Modifier
+                .padding(48.dp)
+                .fillMaxWidth()
+                .zIndex(10f),
+                enabled = true,
+                colors = standardButtonColor(),
+                onClick = { onSuccessButtonClicked(viewModel) }
+            ) {
+                Text(text = stringResource(R.string.success_message))
+            }
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .size(screenHeight),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            RowFactory(screenWidth, screenHeight, viewModel)
+        }
+    }
+    if (timeOutMessage != null){
+        TimeOutMessage(viewModel, navController, context, timeOutMessage)
     }
 }
 
@@ -86,7 +115,9 @@ fun SquareFactory(
         val enabledSquare = squaresState.getOrNull(index) ?: true
 
         Button(
-            modifier = Modifier.size(screenWidthPart),
+            modifier = Modifier
+                .size(screenWidthPart)
+                .zIndex(0f),
             colors = initialSquareColor(),
             shape = RectangleShape,
             border = BorderStroke(1.dp, Color.White),
@@ -96,24 +127,7 @@ fun SquareFactory(
                 Log.d("DEBUG", "square clicked at index $index")
             }
         ) {}
-
         squarePopulation += screenWidthPart
-    }
-}
-
-@Composable
-fun SuccessButton(
-    viewModel: ScreenTestViewModel
-) {
-    viewModel.enabledButton.value?.let {
-        Button(modifier = Modifier
-            .padding(48.dp)
-            .fillMaxWidth()
-            .zIndex(10f),
-            enabled = true,
-            onClick = { onSuccessButtonClicked(viewModel) }) {
-            Text(text = stringResource(R.string.success_message))
-        }
     }
 }
 
@@ -122,14 +136,22 @@ fun TimeOutMessage(
     viewModel: ScreenTestViewModel,
     navController: NavController,
     context: Context,
-    toastMessage: String?
+    timeOutMessage: String?
 ) {
-    LaunchedEffect(toastMessage) {
-        toastMessage?.let {
+    Log.d("DEBUG", "$timeOutMessage")
+    LaunchedEffect(timeOutMessage) {
+        timeOutMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         }
     }
-    viewModel.handleNavigation(navController)
+    handleNavigation(viewModel, navController)
+}
+
+fun handleNavigation(viewModel: ScreenTestViewModel, navController: NavController) {
+    Log.d("DEBUG", "chegou na navegação")
+    if (viewModel.isFinish.value == true) {
+        navController.navigate(Routes.HOME_SCREEN)
+    }
 }
 
 fun onSuccessButtonClicked(viewModel: ScreenTestViewModel) {

@@ -17,13 +17,14 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
     private var _timeOutMessage: MutableLiveData<String?> = MutableLiveData(null)
     private var _enabledButton: MutableLiveData<Boolean> = MutableLiveData(false)
     private val _squaresState = MutableLiveData<List<Boolean>>(emptyList())
+    private val _isFinish = MutableLiveData<Boolean>(false)
     private var squareCount = 0
     private var timer: CountDownTimer? = null
 
-    var isFinish = false
     val totalSquares = 36
     val timeOutMessage: LiveData<String?> = _timeOutMessage
     val enabledButton: LiveData<Boolean> = _enabledButton
+    val isFinish: LiveData<Boolean> = _isFinish
     val squaresState: MutableLiveData<List<Boolean>> = _squaresState
 
 
@@ -39,7 +40,7 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
             }
 
             override fun onFinish() {
-                isFinish = true
+                _isFinish.value = true
                 handleTestResult()
                 Log.d("DEBUG", "finish countDown")
             }
@@ -56,14 +57,12 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
     fun handleTestResult() {
         if (allSquaresClicked()) {
             _enabledButton.value = allSquaresClicked()
-            Log.d("DEBUG", "${_enabledButton.value}")
         } else {
             showMessageToast(false)
         }
     }
 
     fun allSquaresClicked(): Boolean {
-        Log.d("DEBUG", "$squareCount e $totalSquares")
         return squareCount == totalSquares
     }
 
@@ -77,13 +76,6 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
 
     fun incrementSquareCount() {
         squareCount++
-        Log.d("DEBUG", "$squareCount")
-    }
-
-    fun handleNavigation(navController: NavController) {
-        if (isFinish){
-            navController.navigate(Routes.HOME_SCREEN)
-        }
     }
 
     override fun onCleared() {

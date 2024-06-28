@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.touchandtest.R
 import com.example.touchandtest.navigation.Routes
-import com.example.touchandtest.presentation.theme.initialButtonColor
+import com.example.touchandtest.presentation.theme.standardButtonColor
 
 @Composable
 fun HomeView(navController: NavHostController) {
@@ -35,7 +35,7 @@ fun HomeView(navController: NavHostController) {
                 .padding(24.dp)
                 .size(240.dp)
                 .clip(CircleShape),
-            colors = initialButtonColor(),
+            colors = standardButtonColor(),
             onClick = { navController.navigate(Routes.TOUCH_TEST_SCREEN) }
         ) {
             Text(
