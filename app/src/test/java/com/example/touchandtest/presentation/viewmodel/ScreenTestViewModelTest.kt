@@ -58,7 +58,7 @@ class ScreenTestViewModelTest {
                 viewModel.incrementSquareCount()
             }
 
-            val result = viewModel.areSquaresClicked()
+            val result = viewModel.allSquaresClicked()
 
             assertEquals(true, result)
             Mockito.verify(enabledButtonObserver).onChanged(true)
@@ -71,7 +71,7 @@ class ScreenTestViewModelTest {
                 viewModel.incrementSquareCount()
             }
 
-            val result = viewModel.areSquaresClicked()
+            val result = viewModel.allSquaresClicked()
 
             assertEquals(false, result)
             Mockito.verify(enabledButtonObserver, Mockito.never()).onChanged(true)

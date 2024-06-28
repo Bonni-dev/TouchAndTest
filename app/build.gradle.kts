@@ -17,6 +17,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["hilt.processor.disableModulesMetadata"] = "false"
+            }
+        }
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -66,6 +71,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.6.8")
     implementation("androidx.compose.material3:material3:1.2.1")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.6.8")
 
     implementation("com.google.dagger:hilt-android:2.49")
     implementation("androidx.test.ext:junit-ktx:1.2.1")
@@ -78,7 +84,7 @@ dependencies {
     testImplementation ("androidx.arch.core:core-testing:2.2.0")
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     testImplementation ("androidx.test:core:1.6.1")
-    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.38.1")
+    testImplementation ("com.google.dagger:hilt-android-testing:2.39.1")
     kaptAndroidTest ("com.google.dagger:hilt-compiler:2.38.1")
 }
 
