@@ -18,7 +18,7 @@ fun AppNavigationGraph() {
         }
 
         composable(Routes.TOUCH_TEST_SCREEN) {
-            ScreenTestView()
+            ScreenTestView(navController)
         }
     }
 }
