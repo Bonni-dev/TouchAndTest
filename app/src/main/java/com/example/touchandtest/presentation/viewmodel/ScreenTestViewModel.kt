@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.touchandtest.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,5 +61,9 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
     fun incrementSquareCount() {
         squareCount++
 
+    }
+
+    fun handleNavigation(navController: NavController) {
+        navController.navigate(Routes.HOME_SCREEN)
     }
 }

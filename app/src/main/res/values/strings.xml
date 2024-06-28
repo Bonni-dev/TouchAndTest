@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TouchAndTest</string>
+    <string name="success_message">PASSOU</string>
+    <string name="test_init_button">INICIAR TESTE</string>
 </resources>

@@ -19,13 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.touchandtest.navigation.Routes
+import com.example.touchandtest.R
 import com.example.touchandtest.presentation.theme.initialSquareColor
 import com.example.touchandtest.presentation.theme.pressedSquareColor
 import com.example.touchandtest.presentation.viewmodel.ScreenTestViewModel
@@ -45,7 +46,7 @@ fun ScreenTestView(
     ) {
         RowFactory(screenWidth, screenHeight, viewModel)
         SuccessButton(viewModel)
-        timeOutMessage(navController, context, toastMessage)
+        timeOutMessage(viewModel, navController, context, toastMessage)
     }
 }
 
@@ -94,13 +95,14 @@ fun SuccessButton(
         Button(
             enabled = it,
             onClick = { onSuccessButtonClicked(viewModel) }) {
-            Text(text = "PASSOU")
+            Text(text = stringResource(R.string.success_message))
         }
     }
 }
 
 @Composable
 fun timeOutMessage(
+    viewModel: ScreenTestViewModel,
     navController: NavController,
     context: Context,
     toastMessage: String?
@@ -110,7 +112,7 @@ fun timeOutMessage(
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
         }
     }
-    handleNavigation(navController)
+    viewModel.handleNavigation(navController)
 }
 
 fun clickedSquared(viewModel: ScreenTestViewModel): ButtonColors {
@@ -120,10 +122,6 @@ fun clickedSquared(viewModel: ScreenTestViewModel): ButtonColors {
 
 fun onSuccessButtonClicked(viewModel: ScreenTestViewModel) {
     viewModel.showMessageToast(true)
-}
-
-fun handleNavigation(navController: NavController) {
-    navController.navigate(Routes.HOME_SCREEN)
 }
 
 @Preview(showBackground = true)
