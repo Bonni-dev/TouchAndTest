@@ -7,12 +7,15 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.*
+import org.junit.After
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -58,7 +61,7 @@ class ScreenTestViewModelTest {
                 viewModel.incrementSquareCount()
             }
 
-            val result = viewModel.allSquaresClicked()
+            val result = viewModel.isAllSquaresClicked()
 
             assertEquals(true, result)
             Mockito.verify(enabledButtonObserver).onChanged(true)
@@ -71,7 +74,7 @@ class ScreenTestViewModelTest {
                 viewModel.incrementSquareCount()
             }
 
-            val result = viewModel.allSquaresClicked()
+            val result = viewModel.isAllSquaresClicked()
 
             assertEquals(false, result)
             Mockito.verify(enabledButtonObserver, Mockito.never()).onChanged(true)
