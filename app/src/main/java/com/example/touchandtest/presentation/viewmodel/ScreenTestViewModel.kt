@@ -1,6 +1,7 @@
 package com.example.touchandtest.presentation.viewmodel
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,18 +10,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScreenTestViewModel @Inject constructor() : ViewModel() {
+    private val _squaresState = MutableLiveData<List<Boolean>>(emptyList())
     private var _timeOutMessage: MutableLiveData<String?> = MutableLiveData(null)
     private var _enabledButton: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val _squaresState = MutableLiveData<List<Boolean>>(emptyList())
-    private val _isFinish = MutableLiveData<Boolean>(false)
+    private val _isFinish: MutableLiveData<Boolean>  = MutableLiveData(false)
     private var squareCount = 0
     private var timer: CountDownTimer? = null
 
-    val totalSquares = 36
+    val squaresState: LiveData<List<Boolean>> = _squaresState
     val timeOutMessage: LiveData<String?> = _timeOutMessage
     val enabledButton: LiveData<Boolean> = _enabledButton
     val isFinish: LiveData<Boolean> = _isFinish
-    val squaresState: MutableLiveData<List<Boolean>> = _squaresState
+    val totalSquares = 36
 
 
     init {
@@ -31,6 +32,7 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
     private fun startCountDown() {
         timer = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                Log.i("COUNTDOWN", "${millisUntilFinished / 1000}")
             }
 
             override fun onFinish() {
@@ -40,22 +42,15 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
         }.start()
     }
 
-    fun onSquareClicked(index: Int) {
-        _squaresState.value = _squaresState.value?.mapIndexed { i, state ->
-            if (i == index) false else state
-        }!!
-        incrementSquareCount()
-    }
-
     fun handleTestResult() {
-        if (allSquaresClicked()) {
-            _enabledButton.value = allSquaresClicked()
+        if (isAllSquaresClicked()) {
+            _enabledButton.value = isAllSquaresClicked()
         } else {
             showMessageToast(false)
         }
     }
 
-    fun allSquaresClicked(): Boolean {
+    fun isAllSquaresClicked(): Boolean {
         return squareCount == totalSquares
     }
 
@@ -67,6 +62,13 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun onSquareClicked(index: Int) {
+        _squaresState.value = _squaresState.value?.mapIndexed { i, state ->
+        if (i == index) false else state
+        }!!
+        incrementSquareCount()
+    }
+
     fun incrementSquareCount() {
         squareCount++
     }
@@ -76,3 +78,4 @@ class ScreenTestViewModel @Inject constructor() : ViewModel() {
         timer?.cancel()
     }
 }
+

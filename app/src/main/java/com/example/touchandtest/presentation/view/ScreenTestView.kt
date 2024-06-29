@@ -3,9 +3,11 @@ package com.example.touchandtest.presentation.view
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,11 +49,18 @@ fun ScreenTestView(
     val enabledButton by viewModel.enabledButton.observeAsState(false)
 
 
+    Column(
+        modifier = Modifier.size(screenWidth, screenHeight),
+    ) {
+        RowFactory(screenWidth, screenHeight, viewModel)
+    }
+
     if (enabledButton) {
         Column(
             modifier = Modifier
-                .size(screenHeight),
-            verticalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .background(Color(0f, 0f, 0f, 0f)),
+            verticalArrangement = Arrangement.Bottom
         ) {
             Button(modifier = Modifier
                 .padding(48.dp)
@@ -64,17 +73,10 @@ fun ScreenTestView(
                 Text(text = stringResource(R.string.success_message))
             }
         }
-    } else {
-        Column(
-            modifier = Modifier
-                .size(screenHeight),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            RowFactory(screenWidth, screenHeight, viewModel)
-        }
     }
-    if (timeOutMessage != null) {
-        TimeOutMessage(viewModel, navController, context, timeOutMessage)
+
+    timeOutMessage?.let {
+        TimeOutMessage(viewModel, navController, context, it)
     }
 }
 
@@ -132,12 +134,10 @@ fun TimeOutMessage(
     viewModel: ScreenTestViewModel,
     navController: NavController,
     context: Context,
-    timeOutMessage: String?
+    timeOutMessage: String
 ) {
     LaunchedEffect(timeOutMessage) {
-        timeOutMessage?.let {
-            Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(context, timeOutMessage, Toast.LENGTH_LONG).show()
     }
     handleNavigation(viewModel, navController)
 }
