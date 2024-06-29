@@ -27,7 +27,7 @@ This project is an example of using Jetpack Compose to create a responsive user 
     <td><img src="https://github.com/Bonnivaldo/TouchAndTest/assets/53324114/959c4bfe-4b25-479a-9d98-db008d8bbe69" alt="initial grid" width="200"/></td>
     <td><img src="https://github.com/Bonnivaldo/TouchAndTest/assets/53324114/c89310c1-2cba-4914-bb5e-f8b9e8b741df" alt="failed test" width="200"/></td>
     <td><img src="https://github.com/Bonnivaldo/TouchAndTest/assets/53324114/3f1fc1a0-e995-437a-8bcb-bd847c05afe3" alt="success state grid" width="200"/></td>
-    <td><img src="https://github.com/Bonnivaldo/TouchAndTest/assets/53324114/3dc501cb-df92-44fc-9b1e-1743640dc7e7" alt="success test button" width="200"/></td>
+    <td><img src="https://github.com/Bonnivaldo/TouchAndTest/assets/53324114/af7d13fe-96e0-4881-92c9-6c507d76e1ef" alt="success test button" width="200"/></td>
   </tr>
 </table>
 
